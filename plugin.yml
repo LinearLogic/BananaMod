@@ -1,0 +1,24 @@
+name: BananaMod
+main: ss.linearlogic.bananamod.BananaMod
+author: LinearLogic
+version: 1.0
+permissions:
+    bananamod.*:
+        description: Master node - grants full access.
+        children:
+            bananamod.place: true
+            bananamod.remove: true
+            bananamod.destroy: true
+            bananamod.immune: true
+    bananamod.place:
+        description: Allows players to place banana peels
+        default: true
+    bananamod.remove:
+        description: Allows players to safely pick up banana peels for their own use
+        default: op
+    bananamod.destroy:
+        description: Same as "bananamod.remove" (idiot-proofing the permissions)
+        default: op
+    bananamod.immune:
+        description: Allows players to step on banana peels without sustaining damage
+        default: op
