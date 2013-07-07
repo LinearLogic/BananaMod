@@ -20,13 +20,8 @@ public class BMListener implements Listener {
 
 	private HashMap<String, Boolean> blockMsgsForPlayers = new HashMap<String, Boolean>();
 	private ArrayList<Location> peelLocations = new ArrayList<Location>();
-	private BananaMod plugin;
 	private final String prefix = ChatColor.GRAY + "[" + ChatColor.YELLOW + "Banana" + ChatColor.GOLD + "Mod" +
 			ChatColor.GRAY + "] ";
-
-	public BMListener(BananaMod instance) {
-		this.plugin = instance;
-	}
 
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent event) { //placing the banana peel
@@ -75,23 +70,21 @@ public class BMListener implements Listener {
 	@EventHandler
 	public void onPlayerMove(PlayerMoveEvent event) { //slipping on a banana peel
 		Player player = event.getPlayer();
-		final String name = player.getName();
 		Block block = player.getLocation().getBlock();
 		if (peelLocations.contains(block.getLocation())) {
-			if (blockMsgsForPlayers.get(name))
+			if (player.hasPermission("bananamod.immune"))
 				return;
-			if (player.hasPermission("bananamod.immune")) {
-				player.sendMessage(prefix + "You just stepped on a banana peel, but your agility saved you from a fall.");
-				blockMsgsForPlayers.put(name, false);
+			Boolean blocked = blockMsgsForPlayers.get(player.getName());
+			blockMsgsForPlayers.put(player.getName(), false);
+			if (blocked != null && blocked) {
+				blockMsgsForPlayers.put(player.getName(), false);
+				return;
 			}
 			player.damage(6.0);
 			player.sendMessage(prefix + ChatColor.RED + "Ouch! " + ChatColor.GRAY + "You slipped on a banana peel!");
 			block.setTypeId(0);
 			block.setData((byte) 0);
 			peelLocations.remove(block.getLocation());
-			return;	
 		}
-		if (!blockMsgsForPlayers.get(name))
-			blockMsgsForPlayers.put(name, true);
 	}
 }

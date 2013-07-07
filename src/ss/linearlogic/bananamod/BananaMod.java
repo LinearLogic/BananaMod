@@ -6,7 +6,7 @@ public class BananaMod extends JavaPlugin {
 
 	public void onEnable() {
 		getLogger().info("Registering listener...");
-		getServer().getPluginManager().registerEvents(new BMListener(this), this);
+		getServer().getPluginManager().registerEvents(new BMListener(), this);
 		getLogger().info("Enabled!");
 	}
 	
